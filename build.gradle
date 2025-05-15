@@ -15,15 +15,11 @@ java {
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://raw.githubusercontent.com/dynapp/robot-core/master/repo/'
-    }
+    
 }
 
 dependencies {
-    implementation 'com.qualcomm.robotcore:ftc-robotcore:8.1.1'
-    implementation 'com.qualcomm.hardware:ftc-robot-controller:8.1.1'
-
+    
     testImplementation 'junit:junit:4.13.2'
 }
 
