@@ -1,44 +1,37 @@
 plugins {
     id 'java'
-    id 'checkstyle'                     
+    id 'checkstyle'
     id 'pmd'
     id 'com.github.spotbugs' version '5.0.14'
-    id 'application'
 }
 
-group = 'org.firstinspires.ftc'
+group = 'com.example'
 version = '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    // FTC SDK dependencies
-    implementation 'com.qualcomm.robotcore:ftc-robotcore:8.1.1'
-    implementation 'com.qualcomm.hardware:ftc-robot-controller:8.1.1'
-    
-    // Testing dependencies
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.9.2'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
-}
-
-application {
-    mainClass = 'org.firstinspires.ftc.teamcode.Main'
-}
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-test {
-    useJUnitPlatform()
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.firstinspires.ftc:RobotCore:8.1.1"
+    implementation "org.firstinspires.ftc:Hardware:8.1.1"
+
+    testImplementation 'junit:junit:4.13.2'
+}
+
+checkstyle {
+    toolVersion = '10.12.0'
+    configFile = file('config/checkstyle/checkstyle.xml')
 }
 
 pmd {
     toolVersion = '6.58.0'
-    ruleSets = []                         
+    ruleSets = []
     ruleSetFiles = files('config/pmd/ruleset.xml')
 }
 
@@ -48,11 +41,10 @@ spotbugs {
     reportLevel = 'low'
 }
 
-checkstyle {
-    toolVersion = '10.12.0'
-    configFile = file('config/checkstyle/checkstyle.xml')
-}
-
 tasks.named('check') {
-    dependsOn(tasks.named('pmdMain'), tasks.named('spotbugsMain'))
+    dependsOn(
+        tasks.named('checkstyleMain'),
+        tasks.named('pmdMain'),
+        tasks.named('spotbugsMain')
+    )
 }
