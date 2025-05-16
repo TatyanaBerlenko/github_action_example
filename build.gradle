@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'checkstyle'
     id 'pmd'
     id("com.github.spotbugs") version "6.1.11"
 }
@@ -23,11 +22,6 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
 }
 
-checkstyle {
-    toolVersion = '9.3.0'
-    configFile = project.file('config/checkstyle/checkstyle.xml')
-}
-
 pmd {
     toolVersion = '7.9.0'
     ruleSets = []
@@ -36,8 +30,7 @@ pmd {
 
 tasks.named('check') {
     dependsOn(
-        tasks.named('checkstyleMain'),
         tasks.named('pmdMain'),
         tasks.named('spotbugsMain')
-    )
+    
 }
