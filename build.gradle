@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'checkstyle'
     id 'pmd'
-    id 'com.github.spotbugs' version '5.0.14'
+    id 'com.github.spotbugs' version '4.9.3'
 }
 
 group = 'com.example'
@@ -24,7 +24,7 @@ dependencies {
 }
 
 checkstyle {
-    toolVersion = '10.12.0'
+    toolVersion = '9.3.0'
     configFile = project.file('config/checkstyle/checkstyle.xml')
 }
 
@@ -35,7 +35,7 @@ pmd {
 }
 
 spotbugs {
-    toolVersion = '4.9.5'
+    toolVersion = '4.9.3'
     effort = 'max'
     reportLevel = 'low'
 }
