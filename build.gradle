@@ -2,7 +2,7 @@ plugins {
     id 'java'
     id 'checkstyle'
     id 'pmd'
-    id 'com.github.spotbugs.gradle.plugin' version '6.0.1'
+    id("com.github.spotbugs") version "6.1.11"
 }
 
 group = 'com.example'
