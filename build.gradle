@@ -29,7 +29,7 @@ checkstyle {
 }
 
 pmd {
-    toolVersion = '6.58.0'
+    toolVersion = '6.57.0'
     ruleSets = []
     ruleSetFiles = files('config/pmd/ruleset.xml')
 }
