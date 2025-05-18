@@ -1,36 +1,20 @@
-plugins {
-    id 'java'
-    id 'pmd'
-    id("com.github.spotbugs") version "6.1.11"
-}
+name: Build Java with Gradle
 
-group = 'com.example'
-version = '1.0-SNAPSHOT'
+on: [push]
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
+jobs:
+  build:
+    runs-on: ubuntu-latest
 
-repositories {
-    mavenCentral()
-    
-}
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
 
-dependencies {
-    
-    testImplementation 'junit:junit:4.13.2'
-}
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
 
-pmd {
-    toolVersion = '7.9.0'
-    ruleSets = []
-    ruleSetFiles = files('config/pmd/ruleset.xml')
-}
-
-tasks.named('check') {
-    dependsOn(
-        tasks.named('pmdMain'),
-        tasks.named('spotbugsMain')
-    
-}
+    - name: Build with Gradle
+      run: ./gradlew build
