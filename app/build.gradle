@@ -54,3 +54,5 @@ spotbugs {
     toolVersion = '4.9.3'
     ignoreFailures = false
 }
+
+check.dependsOn spotbugsDebug

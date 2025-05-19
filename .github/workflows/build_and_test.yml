@@ -20,7 +20,7 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
       - name: Run SpotBugs
-        run: ./gradlew spotbugsDebug
+        run: ./gradlew check
 
   build_apk:
     name: Build APK
