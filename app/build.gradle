@@ -55,4 +55,6 @@ spotbugs {
     ignoreFailures = false
 }
 
-check.dependsOn spotbugsDebug
+tasks.named('check') {
+    dependsOn 'spotbugsDebug'
+}
