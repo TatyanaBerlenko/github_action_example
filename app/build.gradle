@@ -51,6 +51,6 @@ dependencies {
 }
 
 spotbugs {
-    toolVersion = '6.1.11'
+    toolVersion = '4.9.3'
     ignoreFailures = false
 }
