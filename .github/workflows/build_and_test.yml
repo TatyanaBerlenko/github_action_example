@@ -19,8 +19,8 @@ jobs:
           distribution: 'temurin'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Run SpotBugsMain
-        run: ./gradlew spotbugsMain
+      - name: Run SpotBugs
+        run: ./gradlew spotbugsDebug
 
   build_apk:
     name: Build APK
