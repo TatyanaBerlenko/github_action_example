@@ -3,7 +3,7 @@
     package="org.firstinspires.ftc.teamcode">
 
     <application>
-        <activity android:name=".AUTO.NewSpecimen3"
+        <activity android:name=".AUTO.Methods70"
             android:exported="false"/>
     </application>
 
