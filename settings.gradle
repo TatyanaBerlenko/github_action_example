@@ -1,7 +1,5 @@
 rootProject.name = 'Robotest' 
 include ':app'
-
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
