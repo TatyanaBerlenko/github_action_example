@@ -1,5 +1,3 @@
-rootProject.name = 'Robotest' 
-include ':app'
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -7,3 +5,5 @@ pluginManagement {
         google()     
     }
 }
+rootProject.name = 'Robotest' 
+include ':app'
