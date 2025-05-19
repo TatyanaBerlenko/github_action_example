@@ -1,20 +1,20 @@
-name: Build Java with Gradle
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:8.10.0' 
+    }
+}
 
-on: [push]
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-
-    - name: Build with Gradle
-      run: ./gradlew build
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

@@ -1,0 +1,55 @@
+plugins {
+    id 'com.android.application'
+    id("com.github.spotbugs") version "6.1.11"
+}
+
+android {
+    namespace 'org.firstinspires.ftc.teamcode' 
+    compileSdk 36
+    buildToolsVersion '29.0.3'
+
+    defaultConfig {
+        applicationId "org.firstinspires.ftc.teamcode"
+        minSdk 24 
+        targetSdk 36
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.11.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    implementation 'org.apache.commons:commons-compress:1.26.0'
+    implementation 'org.firstinspires.ftc:Inspection:9.0.0'
+    implementation 'org.firstinspires.ftc:Blocks:9.0.0'
+    implementation 'org.firstinspires.ftc:RobotCore:9.0.0'
+    implementation 'org.firstinspires.ftc:Hardware:9.0.0'
+    implementation 'org.firstinspires.ftc:FtcCommon:9.0.0'
+    implementation 'androidx.annotation:annotation:1.6.0'
+}
+
+spotbugs {
+    toolVersion = '6.1.11'
+    ignoreFailures = false
+}
