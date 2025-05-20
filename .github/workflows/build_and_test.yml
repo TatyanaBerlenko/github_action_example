@@ -21,6 +21,12 @@ jobs:
         run: chmod +x gradlew
       - name: Run SpotBugs
         run: ./gradlew check
+      - name: Upload SpotBugs HTML report
+        uses: actions/upload-artifact@v3
+        with:
+          name: spotbugs-report-html
+          path: app/build/reports/spotbugs/spotbugsDebug.html
+
 
   build_apk:
     name: Build APK
