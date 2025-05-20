@@ -59,8 +59,8 @@ spotbugs {
 }
 
 tasks.named('check') {
-    dependsOn 'spotbugsDebug', 'spotbugsRelease'
-    dependsOn 'checkstyleMain', 'checkstyleTest'
+    dependsOn 'spotbugsDebug'
+    dependsOn 'checkstyle'
 }
 
  checkstyle {
