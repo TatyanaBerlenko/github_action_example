@@ -22,7 +22,7 @@ jobs:
       - name: Run SpotBugs
         run: ./gradlew check
       - name: Upload SpotBugs HTML report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: spotbugs-report-html
           path: app/build/reports/spotbugs/spotbugsDebug.html
