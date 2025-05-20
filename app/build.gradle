@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.github.spotbugs'
-
+    id 'checkstyle' 
 }
 
 android {
@@ -60,5 +60,12 @@ spotbugs {
 
 tasks.named('check') {
     dependsOn 'spotbugsDebug'
+    dependsOn 'checkstyle'
 }
+
+ checkstyle {
+    toolVersion = '10.23.1'
+    configFile = file("config/checkstyle/checkstyle.xml")
+}
+tasks.preBuild.dependsOn 'checkstyle'
 

@@ -19,13 +19,31 @@ jobs:
           distribution: 'temurin'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Run SpotBugs
+      - name: Run Checkers
         run: ./gradlew check
-      # - name: Upload SpotBugs HTML report
-      # - uses: actions/upload-artifact@v4
-      #   with:
-      #     name: spotbugs-report-html
-      #     path: app/build/reports/spotbugs/spotbugsDebug.html
+
+      # == Upload SpotBugs reports ==
+      - name: Upload SpotBugs HTML reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: spotbugs-reports
+          path: |
+            app/build/reports/spotbugs/spotbugsDebug.html
+            app/build/reports/spotbugs/spotbugsRelease.html
+
+      # == Upload Android Lint report ==
+      - name: Upload Android Lint HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: lint-report
+          path: app/build/reports/lint-results-debug.html
+
+      # == Upload Checkstyle report ==
+      - name: Upload Checkstyle HTML report
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkstyle-report
+          path: app/build/reports/checkstyle/main.html
 
 
   build_apk:
