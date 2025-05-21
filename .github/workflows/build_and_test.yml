@@ -8,7 +8,7 @@ on:
 
 jobs:
   static_analysis:
-    name: Static Analysis with SpotBugs
+    name: Code Analysis 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -19,8 +19,19 @@ jobs:
           distribution: 'temurin'
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
       - name: Run Checkers
         run: ./gradlew clean assembleDebug assembleRelease
+
+      - name: List all report files
+        run: |
+          echo "=== CHECKSTYLE ==="
+          find app/build/reports/checkstyle -type f || echo "(папки нет)"
+          echo "=== SPOTBUGS ==="
+          find app/build/reports/spotbugs -type f || echo "(папки нет)"
+          echo "=== LINT ==="
+          find app/build/reports -name "lint*.html" || echo "(нет lint)"
+
 
       # == Upload SpotBugs reports ==
       - name: Upload SpotBugs HTML reports
