@@ -8,10 +8,10 @@ on:
 
 jobs:
   build-and-analyze:
+    name: Build & Static Analysis
     runs-on: ubuntu-latest
     outputs:
       reports-path: ${{ steps.reports-path.outputs.dir }}
-
     steps:
       - uses: actions/checkout@v4
       - name: Run static analysis and build reports
@@ -21,37 +21,29 @@ jobs:
             checkstyleDebug spotbugsDebug lintDebug \
             assembleDebug assembleRelease
           echo "::set-output name=dir::app/build/reports"
-
-
-      # == Upload SpotBugs reports ==
       - name: Upload SpotBugs HTML reports
         uses: actions/upload-artifact@v4
         with:
           name: spotbugs-reports
           path: |
-            app/build/reports/spotbugs/spotbugsDebug.html
-            app/build/reports/spotbugs/spotbugsRelease.html
-
-      # == Upload Android Lint report ==
+            app/build/reports/spotbugs/**/*.html
       - name: Upload Android Lint HTML report
         uses: actions/upload-artifact@v4
         with:
           name: lint-report
-          path: app/build/reports/lint-results-debug.html
-
-      # == Upload Checkstyle report ==
+          path: app/build/reports/**/*lint*.html
       - name: Upload Checkstyle HTML report
         uses: actions/upload-artifact@v4
         with:
           name: checkstyle-report
-          path: app/build/reports/checkstyle/*.html
+          path: app/build/reports/checkstyle/**/*.html
 
   publish-reports:
+    name: Publish Reports to Pages
     needs: build-and-analyze
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
       - name: Upload reports for Pages
         uses: actions/upload-pages-artifact@v1
         with:
@@ -59,10 +51,9 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v1
 
-
   build_apk:
     name: Build APK
-    needs: static_analysis
+    needs: build-and-analyze
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -76,8 +67,7 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
       - name: Accept Android SDK Licenses
-        run: |
-          echo y | sdkmanager --licenses
+        run: echo y | sdkmanager --licenses
       - name: Build APK
         run: ./gradlew assembleDebug
       - name: Upload APK
