@@ -7,69 +7,80 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-analyze:
+  static_analysis:
     name: Build & Static Analysis
     runs-on: ubuntu-latest
     outputs:
-      reports-path: ${{ steps.reports-path.outputs.dir }}
+      reports-path: ${{ steps.reports.outputs.dir }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Run static analysis and build reports
-        id: reports-path
+        id: reports
         run: |
           ./gradlew clean \
             checkstyleDebug spotbugsDebug lintDebug \
             assembleDebug assembleRelease
           echo "::set-output name=dir::app/build/reports"
-      - name: Upload SpotBugs HTML reports
+
+      - name: Upload SpotBugs reports
         uses: actions/upload-artifact@v4
         with:
           name: spotbugs-reports
-          path: |
-            app/build/reports/spotbugs/**/*.html
-      - name: Upload Android Lint HTML report
+          path: app/build/reports/spotbugs/**/*.html
+
+      - name: Upload Android Lint report
         uses: actions/upload-artifact@v4
         with:
           name: lint-report
           path: app/build/reports/**/*lint*.html
-      - name: Upload Checkstyle HTML report
+
+      - name: Upload Checkstyle report
         uses: actions/upload-artifact@v4
         with:
           name: checkstyle-report
           path: app/build/reports/checkstyle/**/*.html
 
-  publish-reports:
-    name: Publish Reports to Pages
-    needs: build-and-analyze
+  publish_reports:
+    name: Deploy Reports to GitHub Pages
+    needs: static_analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
       - name: Upload reports for Pages
         uses: actions/upload-pages-artifact@v1
         with:
-          path: ${{ needs.build-and-analyze.outputs.reports-path }}
+          path: ${{ needs.static_analysis.outputs.reports-path }}
+
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v1
 
   build_apk:
     name: Build APK
-    needs: build-and-analyze
+    needs: static_analysis
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
+
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+
       - name: Accept Android SDK Licenses
         run: echo y | sdkmanager --licenses
+
       - name: Build APK
         run: ./gradlew assembleDebug
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
