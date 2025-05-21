@@ -21,6 +21,8 @@ jobs:
 
       - name: Run static analysis and build reports
         run: |
+          rm -rf app/build/outputs/apk
+          rm -rf app/build/outputs/bundle
           ./gradlew clean \
             checkstyleDebug spotbugsDebug lintDebug \
             assembleDebug
