@@ -7,57 +7,36 @@ on:
     branches: [ "main" ]
 
 jobs:
-  static_analysis:
-    name: Build & Static Analysis
+  build_and_analyze:
+    name: Build, Analyze & Upload Pages Artifact
     runs-on: ubuntu-latest
-    outputs:
-      reports-path: ${{ steps.reports.outputs.dir }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Run static analysis and build reports
-        id: reports
         run: |
           ./gradlew clean \
             checkstyleDebug spotbugsDebug lintDebug \
-            assembleDebug 
-          echo "::set-output name=dir::app/build/reports"
+            assembleDebug
 
-      - name: Upload SpotBugs reports
-        uses: actions/upload-artifact@v4
+      # вот этот шаг — сразу упаковываем папку с HTML-отчетами
+      - name: Upload reports for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: spotbugs-reports
-          path: app/build/reports/spotbugs/**/*.html
+          path: app/build/reports
 
-      - name: Upload Android Lint report
-        uses: actions/upload-artifact@v4
-        with:
-          name: lint-report
-          path: app/build/reports/**/*lint*.html
-
-      - name: Upload Checkstyle report
-        uses: actions/upload-artifact@v4
-        with:
-          name: checkstyle-report
-          path: app/build/reports/checkstyle/**/*.html
-
-  publish_reports:
-    name: Deploy Reports to GitHub Pages
-    needs: static_analysis
+  deploy_pages:
+    name: Deploy to GitHub Pages
+    needs: build_and_analyze
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - name: Upload reports for Pages
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ needs.static_analysis.outputs.reports-path }}
-
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
+
 
   build_apk:
     name: Build APK
