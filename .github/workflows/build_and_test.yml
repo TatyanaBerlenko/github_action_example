@@ -7,30 +7,20 @@ on:
     branches: [ "main" ]
 
 jobs:
-  static_analysis:
-    name: Code Analysis 
+  build-and-analyze:
     runs-on: ubuntu-latest
+    outputs:
+      reports-path: ${{ steps.reports-path.outputs.dir }}
+
     steps:
       - uses: actions/checkout@v4
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Run Checkers
-        run: ./gradlew clean lintDebug assembleDebug assembleRelease
-
-      - name: List all report files
+      - name: Run static analysis and build reports
+        id: reports-path
         run: |
-          echo "=== CHECKSTYLE ==="
-          find app/build/reports/checkstyle -type f || echo "(папки нет)"
-          echo "=== SPOTBUGS ==="
-          find app/build/reports/spotbugs -type f || echo "(папки нет)"
-          echo "=== LINT ==="
-          find app/build/reports -name "lint*.html" || echo "(нет lint)"
+          ./gradlew clean \
+            checkstyleDebug spotbugsDebug lintDebug \
+            assembleDebug assembleRelease
+          echo "::set-output name=dir::app/build/reports"
 
 
       # == Upload SpotBugs reports ==
@@ -55,6 +45,19 @@ jobs:
         with:
           name: checkstyle-report
           path: app/build/reports/checkstyle/*.html
+
+  publish-reports:
+    needs: build-and-analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Шагаем к артефактам отчётов
+      - name: Upload reports for Pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: ${{ needs.build-and-analyze.outputs.reports-path }}
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
 
 
   build_apk:
