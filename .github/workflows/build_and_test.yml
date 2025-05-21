@@ -32,10 +32,26 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: app/build/reports
-      - name: Debug
+      
+      - name: Create Pages index and disable Jekyll
         run: |
-          echo ">>> tree app/build/reports"
-          tree app/build/reports || true
+          cat <<EOF > app/build/reports/index.html
+          <!DOCTYPE html>
+          <html lang="ru">
+          <head><meta charset="utf-8"><title>Reports</title></head>
+          <body>
+            <h1>Android CI Reports</h1>
+            <ul>
+              <li><a href="lint-results-debug.html">Lint Report</a></li>
+              <li><a href="checkstyle/debug.html">Checkstyle</a></li>
+              <li><a href="spotbugs/debug.html">SpotBugs</a></li>
+            </ul>
+          </body>
+          </html>
+          EOF
+          # Отключаем Jekyll, чтобы не было проблем с обработкой файлов
+          touch app/build/reports/.nojekyll
+
 
   deploy_pages:
     name: Deploy to GitHub Pages
