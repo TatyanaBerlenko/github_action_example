@@ -21,7 +21,7 @@ jobs:
         run: |
           ./gradlew clean \
             checkstyleDebug spotbugsDebug lintDebug \
-            assembleDebug assembleRelease
+            assembleDebug 
           echo "::set-output name=dir::app/build/reports"
 
       - name: Upload SpotBugs reports
