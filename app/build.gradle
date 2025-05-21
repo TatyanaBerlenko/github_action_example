@@ -91,13 +91,10 @@ tasks.register('checkstyleRelease', Checkstyle) {
     }
 }
 
-tasks.named("assembleDebug") {
-    dependsOn "checkstyleDebug", "spotbugsDebug"
+tasks.named("assembleDebug").configure {
+    dependsOn("checkstyleDebug", "spotbugsDebug")
 }
-
-// И перед сборкой Release-APK
-tasks.named("assembleRelease") {
-    dependsOn "checkstyleRelease", "spotbugsRelease"
+tasks.named("assembleRelease").configure {
+    dependsOn("checkstyleRelease", "spotbugsRelease")
 }
-
 

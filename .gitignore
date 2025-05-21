@@ -1,0 +1,70 @@
+# Built application files
+**/build/
+**/bin/
+
+# Android Studio generated files
+.gradle/
+.idea/
+*.iml
+.DS_Store
+local.properties
+
+# Gradle build output
+.gradle/
+
+# Java class files
+**/*.class
+
+# APK files
+*.apk
+
+# Debug keystore
+debug.keystore
+
+# Local settings
+local.settings
+settings.gradle.kts
+
+# Cache directories
+.apt_generated/
+.blaze/
+.dart_tool/
+.flutter-plugins/
+.gen/
+.settings/
+.tmproj/
+blaze-out/
+cmake-build-debug/
+cmake-build-release/
+ndkBuild/
+project/.externalNativeBuild/
+project/.cxx/
+
+# Other
+*.log
+*.jks
+*.p12
+*.orig
+*.rej
+*.patch
+*.swp
+*.swo
+*.vmoption
+.classpath
+.project
+
+# Files for the Kotlin Daemon
+kotlin-daemon-*
+
+# Files produced by the Gradle build system
+build/
+
+# Android specific files
+.android/debug.keystore
+captures/
+
+# IntelliJ
+*.iws
+
+# Keystore files
+*.keystore
