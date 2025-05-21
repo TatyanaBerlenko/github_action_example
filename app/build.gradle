@@ -78,7 +78,8 @@ tasks.register('checkstyleDebug', Checkstyle) {
     source = files(
         android.sourceSets.main.java.srcDirs,
         android.sourceSets.debug.java.srcDirs
-    )    configFile = checkstyle.configFile
+    )    
+    configFile = checkstyle.configFile
 
     reports {
         html.required = true
