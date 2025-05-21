@@ -46,14 +46,18 @@ jobs:
     name: Deploy Reports to GitHub Pages
     needs: static_analysis
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Upload reports for Pages
-        uses: actions/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ needs.static_analysis.outputs.reports-path }}
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   build_apk:
     name: Build APK
