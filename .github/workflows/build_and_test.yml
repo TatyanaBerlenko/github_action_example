@@ -30,7 +30,7 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: app/build/reports
-      - name: Debug: показать содержимое папки с отчётами
+      - name: Debug
         run: |
           echo ">>> tree app/build/reports"
           tree app/build/reports || true
