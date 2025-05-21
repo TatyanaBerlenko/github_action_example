@@ -69,7 +69,6 @@ tasks.register('checkstyleDebug', Checkstyle) {
     classpath = files() 
     source = android.sourceSets.debug.java.srcDirs
     configFile = checkstyle.configFile
-    toolVersion = checkstyle.toolVersion
 
     reports {
         html.required = true
@@ -83,7 +82,6 @@ tasks.register('checkstyleRelease', Checkstyle) {
     classpath = files()
     source = android.sourceSets.release.java.srcDirs
     configFile = checkstyle.configFile
-    toolVersion = checkstyle.toolVersion
 
     reports {
         html.required = true
