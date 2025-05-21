@@ -30,6 +30,10 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: app/build/reports
+      - name: Debug: показать содержимое папки с отчётами
+        run: |
+          echo ">>> tree app/build/reports"
+          tree app/build/reports || true
 
   deploy_pages:
     name: Deploy to GitHub Pages
@@ -41,8 +45,7 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
-      - name: Show Pages URL
-        run: echo "Pages site is available at: ${{ steps.deployment.outputs.page_url }}"
+
 
 
   build_apk:
