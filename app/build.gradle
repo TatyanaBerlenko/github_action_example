@@ -91,10 +91,11 @@ tasks.register('checkstyleRelease', Checkstyle) {
     }
 }
 
-tasks.named("assembleDebug").configure {
-    dependsOn("checkstyleDebug", "spotbugsDebug")
+afterEvaluate {
+    tasks.named("assembleDebug").configure {
+        dependsOn("checkstyleDebug", "spotbugsDebug")
+    }
+    tasks.named("assembleRelease").configure {
+        dependsOn("checkstyleRelease", "spotbugsRelease")
+    }
 }
-tasks.named("assembleRelease").configure {
-    dependsOn("checkstyleRelease", "spotbugsRelease")
-}
-
