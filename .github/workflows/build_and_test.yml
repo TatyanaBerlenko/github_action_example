@@ -40,7 +40,7 @@ jobs:
 
   build_apk:
     name: Build APK
-    needs: static_analysis
+    needs: build_and_analyze
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
