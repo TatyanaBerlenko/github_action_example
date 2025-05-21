@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [ "main" ]
 
+permissions:
+  contents: read            # чтобы checkout работал
+  pages: write              # для deploy-pages
+  id-token: write           # очень важно для OIDC
+
 jobs:
   build_and_analyze:
     name: Build, Analyze & Upload Pages Artifact
