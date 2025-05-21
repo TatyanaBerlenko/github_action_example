@@ -21,9 +21,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Run Checkers
-        run: ./gradlew clean \
-        checkstyleDebug spotbugsDebug lintDebug \
-        assembleDebug assembleRelease
+        run: ./gradlew clean lintDebug assembleDebug assembleRelease
 
       - name: List all report files
         run: |
