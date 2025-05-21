@@ -91,10 +91,14 @@ tasks.register('checkstyleRelease', Checkstyle) {
     }
 }
 
-tasks.named('check') {
-    dependsOn 'spotbugsDebug', 'spotbugsRelease',
-    dependsOn 'checkstyleDebug', 'checkstyleRelease'
+
+
+tasks.named("preDebugBuild") {
+    dependsOn "checkstyleDebug", "spotbugsDebug"
 }
 
-tasks.preBuild.dependsOn 'checkstyleDebug', 'checkstyleRelease'
+tasks.named("preReleaseBuild") {
+    dependsOn "checkstyleRelease", "spotbugsRelease"
+}
+
 
