@@ -58,14 +58,43 @@ spotbugs {
     ignoreFailures = false
 }
 
-tasks.named('check') {
-    dependsOn 'spotbugsDebug'
-    dependsOn 'checkstyle'
-}
-
- checkstyle {
+checkstyle {
     toolVersion = '10.23.1'
     configFile = file("config/checkstyle/checkstyle.xml")
 }
+
+tasks.register('checkstyleDebug', Checkstyle) {
+    group = 'verification'
+    description = 'Runs Checkstyle on Debug sources'
+    classpath = files() 
+    source = android.sourceSets.debug.java.srcDirs
+    configFile = checkstyle.configFile
+    toolVersion = checkstyle.toolVersion
+
+    reports {
+        html.required = true
+        xml.required = false
+    }
+}
+
+tasks.register('checkstyleRelease', Checkstyle) {
+    group = 'verification'
+    description = 'Runs Checkstyle on Release sources'
+    classpath = files()
+    source = android.sourceSets.release.java.srcDirs
+    configFile = checkstyle.configFile
+    toolVersion = checkstyle.toolVersion
+
+    reports {
+        html.required = true
+        xml.required = false
+    }
+}
+
+tasks.named('check') {
+    dependsOn 'spotbugsDebug', 'spotbugsRelease',
+    dependsOn 'checkstyleDebug', 'checkstyleRelease'
+}
+
 tasks.preBuild.dependsOn 'checkstyle'
 
